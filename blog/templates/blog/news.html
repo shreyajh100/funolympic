@@ -1,0 +1,94 @@
+{% extends "blog/base.html" %} {% block content %} {% load static %}
+
+<link rel="stylesheet" href="{% static 'assets/css/News-Cards.css' %}" />
+<link rel="stylesheet" href="{% static 'assets/css/styles.css' %}" />
+
+
+<div style="">
+</div>
+<div class="col-md-12">
+</div>
+ 
+  <br>
+
+  
+    <div class="">
+      <h2 class="card-title text-center" style="color:white; font-weight: bolder; margin-top: 5%; ">
+        News Highlights</h2>
+    </div>
+  
+  <br>
+<div class="container">
+  <div class="row" >
+
+
+{% for news in news %}
+<div class ="col-md-4 col-12 justify-content-between">
+<figure
+  class="snip1527"
+
+>
+  <div class="image object-fit">
+    <img
+      src="{{news.image.url}}"
+      alt="pr-sample23"
+      height="200px"
+      width="100%"
+      object-fit:cover;
+    />
+  </div>
+
+  <figcaption>
+    <div class="date">
+      <span class="day">{{news.date_posted|date:"d-m"}}</span>
+    </div>
+    <h3>{{news.title}}</h3>
+    <p>
+      {{news.content}}
+    </p>
+    <!-- view button bootstrap -->
+    {% if news.post %}
+    <a href="{% url 'post_detail' news.post.id%}" class="btn btn-info" style="height: 8%; width: 30%; position: relative; margin-left: 30%; margin-top: 4%;">View</a>
+    {% endif %}
+
+  </figcaption>
+
+</figure>
+
+</div>
+
+{% endfor %}
+<!-- notification section bootstrap -->
+
+
+
+</div>
+{% if is_paginated %}
+{% if page_obj.has_previous %}
+  <a class="btn btn-outline-info mb-4" href="?page=1" >First</a>
+  <a class="btn btn-outline-info mb-4" href="?page={{ page_obj.previous_page_number }}">Previous</a>
+{% endif %}
+
+{% for num in page_obj.paginator.page_range %}
+  {% if page_obj.number == num %}
+    <a class="btn btn-info mb-4" href="?page={{ num }}">{{ num }}</a>
+  {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
+    <a class="btn btn-outline-info mb-4" href="?page={{ num }}">{{ num }}</a>
+  {% endif %}
+{% endfor %}
+
+{% if page_obj.has_next %}
+  <a class="btn btn-outline-info mb-4" href="?page={{ page_obj.next_page_number }}">Next</a>
+  <a class="btn btn-outline-info mb-4" href="?page={{ page_obj.paginator.num_pages }}">Last</a>
+{% endif %}
+{% endif %}
+</div>
+</div>
+<!-- Left floating notf -->
+<script>
+  const item = document.querySelector(".ttt");
+  // chenage class name
+  item.classList = "";
+  item.classList.add("md-12");
+</script>
+{%endblock content%}

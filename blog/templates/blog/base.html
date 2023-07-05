@@ -1,0 +1,548 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
+
+    <!-- Bootstrap CSS -->
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+      integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+      crossorigin="anonymous"
+    />
+
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
+
+    <!-- Font Awesome -->
+    <link
+      rel="stylesheet"
+      href="https://use.fontawesome.com/releases/v5.6.3/css/all.css"
+      integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/"
+      crossorigin="anonymous"
+    />
+
+    <!-- Medium Editor -->
+    <style>
+      @media (max-width: 768px) {
+    .carousel-inner .carousel-item > div {
+        display: none;
+    }
+    .carousel-inner .carousel-item > div:first-child {
+        display: block;
+    }
+}
+
+.carousel-inner .carousel-item.active,
+.carousel-inner .carousel-item-next,
+.carousel-inner .carousel-item-prev {
+    display: flex;
+}
+
+/* display 3 */
+@media (min-width: 768px) {
+    
+    .carousel-inner .carousel-item-right.active,
+    .carousel-inner .carousel-item-next {
+      transform: translateX(33.333%);
+    }
+    
+    .carousel-inner .carousel-item-left.active, 
+    .carousel-inner .carousel-item-prev {
+      transform: translateX(-33.333%);
+    }
+}
+
+.carousel-inner .carousel-item-right,
+.carousel-inner .carousel-item-left{ 
+  transform: translateX(0);
+}
+
+
+    </style>
+    <script src="//cdn.jsdelivr.net/npm/medium-editor@latest/dist/js/medium-editor.min.js"></script>
+    <link
+      rel="stylesheet"
+      href="//cdn.jsdelivr.net/npm/medium-editor@latest/dist/css/medium-editor.min.css"
+      type="text/css"
+      media="screen"
+      charset="utf-8"
+    />
+
+    <!-- Custom Style -->
+    <link rel="stylesheet" type="text/css" href="{% static 'css/main.css' %}" />
+
+    {% if title %}
+    <title>Fun Olympics - {{ title }}</title>
+    {% else %}
+    <title>Fun Olympics</title>
+    {% endif %}
+  </head>
+  
+  <body  style=" min-height: 100vh; position: relative; margin: 0; padding-bottom: 100px; box-sizing: border-box; background-color:#191919" class="">
+    <header class="site-header shadow">
+      <nav class="navbar navbar-expand-md navbar-dark bg-steel fixed-top" style="background-color: black; padding: 20px;">
+        <div class="container">
+          
+          <!-- logo Text -->
+          
+          <a class="navbar-brand mr-4" href="{% url 'index' %}"
+            ><img src="https://olympics.com/images/static/b2p-images/logo_color.svg" alt="logo" style="height: 30%;"></a>
+            <a class="navbar-brand " font-family: 'Agdasima', sans-serif; href="{% url 'index' %}">Fun Olympics</a>
+          <button
+            class="navbar-toggler"
+            type="button"
+            data-toggle="collapse"
+            data-target="#navbarToggle"
+            aria-controls="navbarToggle"
+            aria-expanded="false"
+            aria-label="Toggle navigation"
+          >
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarToggle">
+       
+            <!-- Navbar Right Side -->
+            <div class="navbar-nav ml-auto " style=" display: flex;
+            column-gap: 20px;
+            justify-content: space-between;
+            ">
+              <a class="nav-item nav-link" font-family: 'Agdasima', sans-serif; href="{% url 'index' %}">Home</a>
+              <div class="dropdown">
+                <button class="btn btn-primary dropdown-toggle" font-family: 'Agdasima', sans-serif; style="background-color:black" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  Categories
+                </button>
+                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                  <ul class="list-group">
+                    <li class="list-group-item list-group-item-light" >Football</li>
+                    <li class="list-group-item list-group-item-light">Badminton</li>
+                    <li class="list-group-item list-group-item-light">Swimming</li>
+                    <li class="list-group-item list-group-item-light">Basketball</li>
+                    <li class="list-group-item list-group-item-light">Volleyball</li>
+                    <li class="list-group-item list-group-item-light">Table-Tennis</li>
+                    <li class="list-group-item list-group-item-light">Etc</li>
+                  </ul>
+                </div>
+                
+            </div>
+              {% if user.is_authenticated %}
+              <div class="ins" style="display: flex;" >
+
+              </div>
+ 
+       
+           
+              
+
+              <div class="dropdown " style="display: flex;">
+               
+                <button class="btn btn-primary dropdown-toggle" style="background-color: black; type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" >
+                  <img src="https://i.pinimg.com/originals/65/25/a0/6525a08f1df98a2e3a545fe2ace4be47.jpg" alt="Avatar" id="profile_pic" class="avatar " style="width: 30px; height: 30px; border-radius: 50%;">
+                  </button>
+                  <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                  <a class="dropdown-item" href="{% url 'profile' %}">Profile</a>
+                  <a class="dropdown-item" href="{% url 'logout' %}">Logout</a>
+                </div>
+              
+                <!-- Notifications section on navbar -->
+
+<div class="dropdown" style="display: flex; margin-left: 7%;">
+  <button class="btn btn-primary dropdown-toggle" style="background-color: black; type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+    <i class="fa fa-bell" style="font-size: 20px;"></i>
+  </button>
+  <div class="dropdown-menu" aria-labelledby="dropdownMenuButton" id="notification_menu">
+    <!-- Add your notification items here -->
+  </div>
+</div>
+{% else %}
+<a class="nav-item nav-link" style="font-family: 'Agdasima', sans-serif;" href="{% url 'login' %}">Login</a>
+<a class="nav-item nav-link" style="font-family: 'Agdasima', sans-serif;" href="{% url 'register' %}">Register</a>
+{% endif %}
+
+              
+   
+          </div>
+        </div>
+      </nav>
+      <br>
+      <br>
+      <br>
+   
+    </header>
+
+    
+    
+<!--Banner-->
+<style>
+  .banner-container {
+    width: 100%;
+    max-width: 100%;
+    overflow: hidden;
+  }
+  
+  .banner-image {
+    width: 100%;
+    height: 50%;
+    display: block;
+  }
+  .large-header {
+    position: relative;
+    width: 100%;
+    background: #111;
+    overflow: hidden;
+    background-size: cover;
+    background-position: center center;
+    z-index: 1;
+}
+
+.demo .large-header {
+    background-image: url("media/images/banner.png");
+}
+</style>
+{% if request.path == '/' %}
+<div class="demo">
+  <div class="content">
+      <div id="large-header" class="large-header">
+          <canvas id="demo-canvas"></canvas>
+</div>
+</div>
+</div>
+{% comment %} <div class="banner-container">
+  <img src= 'media/images/Banner.png' alt="Banner Photo" class="banner-image">
+</div> {% endcomment %}
+{% endif %}
+<!-- Particles Js -->
+<script src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/499416/TweenLite.min.js "></script>
+<script src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/499416/EasePack.min.js "></script>
+<script src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/499416/demo.js "></script>
+<!-- Particles Js -->
+<!--Matches-->
+    
+    {% if request.path == '/' %}
+    <div class="container text-center my-3">
+      <div class="row mx-auto my-auto">
+        
+          <div id="recipeCarousel" class="carousel slide w-100" data-ride="carousel">
+              <div class="carousel-inner w-100" role="listbox">
+
+                  <div class="carousel-item active" >
+                      <div class="col-md-4" hidden>
+                          <div class="card card-body">
+                              
+                          </div>
+                      </div>
+                  </div>
+                  {% for notice in notice%}
+                  <div class="carousel-item" >
+                      <div class="col-md-4" >
+                          <div class="card card-body" style="background-color:#8792ae ; color: white;">
+                              <h7 style="font-weight: bolder;">{{notice}}</h7>
+                          </div>
+                      </div>
+                  </div>
+                  {% endfor %}
+              </div>
+              <a class="carousel-control-prev w-auto" href="#recipeCarousel" role="button" data-slide="prev">
+                  <span class="carousel-control-prev-icon bg-dark border border-dark rounded-circle" aria-hidden="true"></span>
+                  <span class="sr-only">Previous</span>
+              </a>
+              <a class="carousel-control-next w-auto" href="#recipeCarousel" role="button" data-slide="next">
+                  <span class="carousel-control-next-icon bg-dark border border-dark rounded-circle" aria-hidden="true"></span>
+                  <span class="sr-only">Next</span>
+              </a>
+          </div>
+       
+
+      </div>
+
+  </div>
+  {% endif %}
+
+
+
+
+</div>
+<br>
+{% if request.path == '/' %}
+<div class="text-center">
+  <a class="btn btn-info" style="height: 30%; width: 20%; background-color: #81d4fa"  href="{% url 'news' %}"> View Live </a>
+</div>
+{% endif %}
+<br>
+<div class="text-center">
+<img src="https://static.semrush.com/blog/uploads/media/c2/52/c2521160ece538cfdbfb218788caf9ea/mDWwN6GNJt_lE7-pGth6IXsdxvqVmPeaGHw-F_dHXiKN8p3FGgIVicwvbdShvLirF5slOvKUkxpfMkaVdne2a6do6vHWdLZSfy1i-lGmfZL9-FyS162K6P-QGbZbk1vKp9YjNSil%3Ds0.png" jsaction="VQAsE" class="r48jcc pT0Scc iPVvYb" style="max-width: 1087px; height: 60px; margin: 42px 0px; width: 465px;" alt="Banner Ad" jsname="kn3ccd" aria-hidden="false">
+<br>
+{% if request.path == '/' %}
+<h1 style="color:white; align:center"> About Us </h1>
+<p style="color:white;"> 
+  Welcome to Fun Olympics 2023 in the vibrant city of Yokyo! This is an extraordinary event where athleticism meets excitement, and we are thrilled to invite you to be a part of this unforgettable celebration. With a rich history of hosting prestigious sporting events, Yokyo is the perfect setting for the ultimate display of skill, passion, and camaraderie. 
+<br>
+Fun Olympics 2023 is not your traditional Olympics. It is a unique and innovative concept that aims to bring a whole new level of enjoyment and entertainment to the world of sports. Our goal is to create an atmosphere where athletes can showcase their abilities in a thrilling and exhilarating manner, captivating audiences from around the globe.
+</p>
+{% endif %}
+</div>
+<br>
+
+
+    <main role="main" class="container"  style="font-family: 'Agdasima', sans-serif;">
+
+      <div class="row" >
+        <div class="col-md-12 ttt">
+          <div >
+            
+          </div>
+          <div style="color:white">
+          {% if messages %}
+          {% for message in messages %}
+          {% if message.tags == 'error' %}
+          </div>
+          <div class="alert alert-danger" role="alert">
+            {{ message }}
+          </div>
+          {% else %}
+
+          <div class="alert alert-{{ message.tags }} ">
+            {{ message }}
+          </div>
+          {% endif %}
+          {% endfor %}
+          {% endif %}
+          {% block content %}
+          {% endblock %}
+        </div>
+        
+    
+      </div>
+    </main>
+    
+
+      <br>
+      <br>
+      <br>
+      <br>
+      <br>
+    <footer style="background-color: black;  position: absolute; bottom: 0; width: 100%; " class="text-center text-white footer  mt-auto" >
+      <!-- Grid container -->
+      <div class="container pt-4">
+        <!-- Section: Social media -->
+        <section class="mb-4" >
+          <!-- Facebook -->
+          <a
+            class="btn btn-link btn-floating btn-lg text-light m-1"
+            href="https://www.facebook.com/shreya.jh"
+            role="button"
+            data-mdb-ripple-color="dark"
+            ><i class="fab fa-facebook-f"></i
+          ></a>
+    
+          <!-- Twitter -->
+          <a
+            class="btn btn-link btn-floating btn-lg text-light m-1"
+            href=""
+            role="button"
+            data-mdb-ripple-color="dark"
+            ><i class="fab fa-twitter"></i
+          ></a>
+    
+         
+
+    
+          <!-- Instagram -->
+          <a
+            class="btn btn-link btn-floating btn-lg text-light m-1"
+            href="https://www.instagram.com/xjanshreya/"
+            role="button"
+            data-mdb-ripple-color="dark"
+            ><i class="fab fa-instagram"></i
+          ></a>
+    
+          <!-- Linkedin -->
+          <a
+            class="btn btn-link btn-floating btn-lg text-light m-1"
+            href="https://www.linkedin.com/in/shreya-joshi-116788255/"
+            role="button"
+            data-mdb-ripple-color="dark"
+            ><i class="fab fa-linkedin"></i
+          ></a>
+          <!-- Github -->
+          <a
+            class="btn btn-link btn-floating btn-lg text-light m-1"
+            href=""
+            role="button"
+            data-mdb-ripple-color="dark"
+            ><i class="fab fa-github"></i
+          ></a>
+        </section>
+        <!-- Section: Social media -->
+      </div>
+
+      <!-- email id section footer-->
+      <div class="text-center p-3" style="background-color: black;">
+        <a class="text-white" href="mailto:[shreyajoshi@ismt.edu.np]">Email: shreyajoshi@ismt.edu.np</a>
+<br>
+<a class="text-white">Phone:+977-9813240510</a>
+
+      </div>
+      <!-- phone number section footer -->
+
+      <!-- Grid container -->
+    <br>
+      <!-- Copyright -->
+      <div class="text-center text-light  " style="background-color: black; ">
+        © 2023 Copyright: Shreya Joshi
+
+        
+
+      </div>
+      
+
+      
+      
+
+      <!-- Copyright -->
+    </footer>
+    
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script
+      src="https://code.jquery.com/jquery-3.4.1.js"
+      integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+      integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+      integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+      crossorigin="anonymous"
+    ></script>
+
+    <script>
+      
+      const lis  = document.getElementsByTagName('li');
+      // console.log(lis);
+      // redirect to another page with innerHTML
+      for(let i = 0; i < lis.length; i++){
+        lis[i].addEventListener('click', function(){
+        
+          // redirect to another page with innerHTML
+          window.location.href = `${window.location.origin}/filter/${this.innerHTML}`;
+
+        });
+        // change color of li when hover change cursor to pointer
+        lis[i].addEventListener('mouseover', function(){
+          // this.style.color = '#fff';
+          this.style.cursor = 'pointer';
+        });
+   
+  
+      }
+
+      fetch(window.location.origin + '/api-blog/profile_pic', {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-CSRFToken': '{{ csrf_token }}',
+          'Authorization': 'Token '+ localStorage.getItem('token')
+        }
+      }).then(res => res.json()).then(data => {
+        console.log(data);
+        if(data.profile_pic){
+          document.getElementById('profile_pic').src = data.profile_pic;
+        }
+      })
+      // fetch data from server and store in local storage
+      fetch(window.location.origin + '/api-blog/contributer/', {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Token ' + localStorage.getItem('token')
+        }
+      })
+        .then(res => res.json())
+        .then(data => {
+          // check if the is_contributer is true
+          // console.log(data.is_contributor)
+          if (data.is_contributor) {
+            // if true then show the navbar
+            // insert the items in the navbar
+            const navbar = document.getElementsByClassName('ins');
+            console.log(navbar);
+            // Insert premade  html in the navbar
+            navbar[0].innerHTML += `
+            <a class="nav-item nav-link" href="{% url 'post_create' %}">Create Post</a>
+            `
+            navbar[0].innerHTML += `
+            <a class="nav-item nav-link" href="{% url 'news_create' %}">Create News</a>`
+          }
+
+        }).catch(err => {
+          console.log(err);
+        }
+        );
+      
+      
+    </script>
+
+{% if request.path == '/' %}
+    <script>
+      const url = window.location.origin +'/api-blog/notifications'
+
+      
+
+
+      setInterval(() => {
+        fetch(url).then(data => data.json()).then(data => {
+          // loop through the data and display the notification
+          console.log(data)
+          const notif = document.getElementById('notification_menu');
+          notif.innerHTML = '';
+          data.forEach(element => {
+            notif.innerHTML += `
+
+            
+            <a href="${window.location.origin}/post/${element.post}" class="alert-link dropdown-item" ><p class="mb-0">${element.message}</p></a>
+ `
+          });
+      })
+      }, 1000)
+    </script>
+    {% endif %}
+    <script>
+      $('#recipeCarousel').carousel({
+  interval: 10000
+})
+
+$('.carousel .carousel-item').each(function(){
+    var minPerSlide = 3;
+    var next = $(this).next();
+    if (!next.length) {
+    next = $(this).siblings(':first');
+    }
+    next.children(':first-child').clone().appendTo($(this));
+    
+    for (var i=0;i<minPerSlide;i++) {
+        next=next.next();
+        if (!next.length) {
+        	next = $(this).siblings(':first');
+      	}
+        
+        next.children(':first-child').clone().appendTo($(this));
+      }
+});
+
+    
+
+
+    </script>
+    <!-- Optional JavaScript -->
+    <script src="{% static 'js/main.js' %}"></script>
+  </body>
+</html>
