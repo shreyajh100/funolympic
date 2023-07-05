@@ -10,8 +10,7 @@
     - `Running the web app`
       - python manage.py runserver
         - go to browser and type(127.0.0.1:8000)
-    `If not scheduling follow the link below`
-      - `https://cronitor.io/cron-reference/no-mta-installed-discarding-output`
+    
   
   ## Docker 
     - Requirements
